@@ -8,7 +8,7 @@ import { links } from '../data/dummy';
 import { useStateContext } from '../contexts/ContextProvider';
 
 const Sidebar = () => {
-  const { activeMenu, setActiveMenu, screenSize } = useStateContext();
+  const { currentColor, activeMenu, setActiveMenu, screenSize } = useStateContext();
 
   const handleCloseSideBar = () => {
     if(activeMenu !== undefined && screenSize <= 900) {
@@ -27,8 +27,9 @@ const Sidebar = () => {
             <SiShopware /><span>Shoppy</span>
           </Link>          
           <TooltipComponent content='Menu' position='BottomCenter'>            
-            <button type='button' onClick={() => setActiveMenu((prevActiveMenu) => !prevActiveMenu)}
-               className='text-xl rounded-full p-3 hover:bg-light-gray mt-4 block md:hidden'>
+            <button type='button' onClick={() => setActiveMenu(!ActiveMenu)}
+              style={{ color: currentColor }}
+              className='text-xl rounded-full p-3 hover:bg-light-gray mt-4 block md:hidden'>
               <MdOutlineCancel />
             </button>
           </TooltipComponent>
@@ -44,17 +45,19 @@ const Sidebar = () => {
                   to={`/${link.name}`}
                   key={link.name}
                   onClick={handleCloseSideBar}
+                  style={({ isActive }) => ({
+                    backgroundColor: isActive ? currentColor : '',
+                  })}
                   className={({ isActive }) => isActive ? activeLink : normalLink}>
                     {link.icon}
-                    <span className='capitalize'>
-                      {link.name}
-                    </span>
+                    <span className='capitalize'>{link.name}</span>
                 </NavLink>
               ))}
             </div>
           ))}
         </div>
-      </>) }
+      </>
+      )}
     </div>
   )
 }
